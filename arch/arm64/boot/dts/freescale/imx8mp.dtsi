@@ -1458,16 +1458,16 @@
 					reset-names = "isi_rst_proc", "isi_rst_apb", "isi_rst_bus";
 					power-domains = <&mediamix_pd>;
 					isi_chain = <&isi_chain_buf>;
-					status = "disabled";
+					status = "okay";
 
 					cap_device {
 						compatible = "imx-isi-capture";
-						status = "disabled";
+						status = "okay";
 					};
 
 					m2m_device{
 						compatible = "imx-isi-m2m";
-						status = "disabled";
+						status = "okay";
 					};
 				};
 
@@ -1498,11 +1498,11 @@
 						 <&media_blk_ctrl IMX8MP_MEDIA_BLK_CTRL_RESET_BUS_BLK>;
 					reset-names = "isi_rst_proc", "isi_rst_apb", "isi_rst_bus";
 					power-domains = <&mediamix_pd>;
-					status = "disabled";
+					status = "okay";
 
 					cap_device {
 						compatible = "imx-isi-capture";
-						status = "disabled";
+						status = "okay";
 					};
 				};
 

@@ -138,6 +138,16 @@
 	};
 };
 
+&ecspi2 {
+    fsl,spi-num-chipselects = <1>;
+    cs-gpios = <&gpio5 13 GPIO_ACTIVE_LOW>; 
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_ecspi2>;
+    status = "okay";
+};
+
+
+
 &eqos {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_eqos>;
@@ -165,15 +175,17 @@
 /* CAN FD */
 &flexcan1 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_flexcan1>;
-	xceiver-supply = <&reg_can1_stby>;
+	pinctrl-0 = <&pinctrl_flexcan1 &pinctrl_flexcan1_reg>;
+	clock-frequency = <80000000>;
+	//standby-gpios = <&gpio3 20 GPIO_ACTIVE_HIGH>; 
 	status = "okay";
 };
 
 &flexcan2 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_flexcan2>;
-	xceiver-supply = <&reg_can2_stby>;
+	pinctrl-0 = <&pinctrl_flexcan2 &pinctrl_flexcan2_reg>;
+	clock-frequency = <80000000>;
+	//standby-gpios = <&gpio3 21 GPIO_ACTIVE_HIGH>; 
 	status = "okay";
 };
 
@@ -241,7 +253,19 @@
 	pinctrl-1 = <&pinctrl_i2c3_gpio>;
 	sda-gpios = <&gpio5 18 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	scl-gpios = <&gpio5 19 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+        status = "okay";
 };
+
+&i2c4 {
+        clock-frequency = <400000>;
+        pinctrl-names = "default", "gpio";
+        pinctrl-0 = <&pinctrl_i2c4>;
+        pinctrl-1 = <&pinctrl_i2c4_gpio>;
+        sda-gpios = <&gpio5 20 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+        scl-gpios = <&gpio5 21 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+	status = "okay";
+};
+
 
 &lcdif2 {
 	status = "okay";
@@ -337,6 +361,20 @@
 	status = "okay";
 };
 
+&uart3 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_uart3>;
+    fsl,uart-has-rtscts;
+    status = "okay";
+};
+
+&uart4 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_uart4>;
+    fsl,uart-has-rtscts;
+    status = "okay";
+};
+
 /* USB */
 &usb3_phy0 {
 	status = "okay";
@@ -396,6 +434,16 @@
 			MX8MP_IOMUXC_ECSPI1_SS0__GPIO5_IO09	0x00
 		>;
 	};
+
+	pinctrl_ecspi2: ecspi2grp {
+    		fsl,pins = <
+			MX8MP_IOMUXC_ECSPI2_MISO__ECSPI2_MISO   0x10b0
+        		MX8MP_IOMUXC_ECSPI2_MOSI__ECSPI2_MOSI   0x10b0
+			MX8MP_IOMUXC_ECSPI2_SCLK__ECSPI2_SCLK   0x10b0
+			MX8MP_IOMUXC_ECSPI2_SS0__GPIO5_IO13     0x00
+    		>;
+	};
+
 
 	pinctrl_eqos: eqosgrp {
 		fsl,pins = <
@@ -486,6 +534,21 @@
 		>;
 	};
 
+	 pinctrl_i2c4: i2c4grp {
+                fsl,pins = <
+                        MX8MP_IOMUXC_I2C4_SCL__I2C4_SCL         0x400001c3
+                        MX8MP_IOMUXC_I2C4_SDA__I2C4_SDA         0x400001c3
+                >;
+        };
+
+        pinctrl_i2c4_gpio: i2c4gpiogrp {
+                fsl,pins = <
+                        MX8MP_IOMUXC_I2C4_SCL__GPIO5_IO20       0x1e3
+                        MX8MP_IOMUXC_I2C4_SDA__GPIO5_IO21       0x1e3
+                >;
+        };
+
+
 	pinctrl_lvds1: lvds1grp {
 		fsl,pins = <
 			MX8MP_IOMUXC_SD2_WP__GPIO2_IO20		0x12
@@ -546,6 +609,23 @@
 			MX8MP_IOMUXC_SAI3_RXD__UART2_DCE_RTS	0x140
 		>;
 	};
+
+        pinctrl_uart3: uart3grp {
+  	         fsl,pins = <
+        		MX8MP_IOMUXC_UART3_RXD__UART3_DCE_RX    0x1c2
+        		MX8MP_IOMUXC_UART3_TXD__UART3_DCE_TX    0x1c2
+        		
+    		>;
+	};
+
+	pinctrl_uart4: uart4grp {
+    		fsl,pins = <
+        		MX8MP_IOMUXC_UART4_RXD__UART4_DCE_RX    0x1c2
+        		MX8MP_IOMUXC_UART4_TXD__UART4_DCE_TX    0x1c2
+
+ 		>;
+	};
+
 
 	pinctrl_usdhc2_pins: usdhc2-gpiogrp {
 		fsl,pins = <
